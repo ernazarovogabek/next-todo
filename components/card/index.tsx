@@ -28,15 +28,39 @@ const Card: FC<CardProps> = (props) => {
     props.onEdit({ id: props.id, name: props.name, surname: props.surname });
   };
 
+  const formatDate = (dateString?: string) => {
+    if (!dateString) return "Noma'lum";
+    const date = new Date(dateString);
+    return date.toLocaleString("uz-UZ", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
+
   return (
     <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 sm:p-6 border border-gray-200 dark:border-gray-600">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0 sm:mb-4">
-        <div>
+      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-3">
+        <div className="flex-1">
           <h3 className="text-base sm:text-lg font-semibold text-gray-800 dark:text-white">
             {props.name} {props.surname}
           </h3>
           <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">ID: #{props.id}</p>
+          
+          <div className="mt-2 space-y-1">
+            <p className="text-xs text-gray-600 dark:text-gray-400">
+              <span className="font-medium">Qo'shilgan:</span> {formatDate(props.createdAt)}
+            </p>
+            {props.updatedAt && props.updatedAt !== props.createdAt && (
+              <p className="text-xs text-gray-600 dark:text-gray-400">
+                <span className="font-medium">Tahrirlangan:</span> {formatDate(props.updatedAt)}
+              </p>
+            )}
+          </div>
         </div>
+        
         <div className="flex gap-2">
           <button
             onClick={handleEdit}

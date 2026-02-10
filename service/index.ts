@@ -25,12 +25,17 @@ export const addUsers = async (data: FormData) => {
   try {
     console.log("Adding user:", data);
     console.log("API URL:", process.env.API_URL);
+    const userData = {
+      ...data,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
     const post = await fetch(`${process.env.API_URL}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(userData),
     });
     console.log("Response status:", post.status);
     const responseText = await post.text();
@@ -63,12 +68,16 @@ export const deleteUser = async (id: number) => {
 
 export const updateUser = async (id: number, data: FormData) => {
   try {
+    const userData = {
+      ...data,
+      updatedAt: new Date().toISOString(),
+    };
     const update = await fetch(`${process.env.API_URL}/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(userData),
     });
     if (!update.ok) {
       throw new Error("Failed to update user");
