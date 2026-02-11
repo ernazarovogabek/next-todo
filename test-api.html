@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test API</title>
+</head>
+<body>
+    <h1>Test MockAPI</h1>
+    <button onclick="testAdd()">Test Add User</button>
+    <button onclick="testGet()">Test Get Users</button>
+    <div id="result"></div>
+
+    <script>
+        const API_URL = 'https://6989be45c04d974bc6a04245.mockapi.io/user';
+
+        async function testAdd() {
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        name: 'Test',
+                        surname: 'User'
+                    })
+                });
+                const data = await response.json();
+                document.getElementById('result').innerHTML = 'Added: ' + JSON.stringify(data);
+                console.log('Success:', data);
+            } catch (error) {
+                document.getElementById('result').innerHTML = 'Error: ' + error.message;
+                console.error('Error:', error);
+            }
+        }
+
+        async function testGet() {
+            try {
+                const response = await fetch(API_URL);
+                const data = await response.json();
+                document.getElementById('result').innerHTML = 'Users: ' + JSON.stringify(data);
+                console.log('Users:', data);
+            } catch (error) {
+                document.getElementById('result').innerHTML = 'Error: ' + error.message;
+                console.error('Error:', error);
+            }
+        }
+    </script>
+</body>
+</html>

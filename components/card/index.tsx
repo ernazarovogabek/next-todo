@@ -31,6 +31,7 @@ const Card: FC<CardProps> = (props) => {
   const formatDate = (dateString?: string) => {
     if (!dateString) return "Noma'lum";
     const date = new Date(dateString);
+    if (isNaN(date.getTime())) return "Noma'lum";
     return date.toLocaleString("uz-UZ", {
       year: "numeric",
       month: "2-digit",
